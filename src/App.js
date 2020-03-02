@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import { promptUser } from "./install";
 
 function App() {
   const [data, setData] = useState({});
@@ -26,6 +27,17 @@ function App() {
     <div className="App">
       <header>
         <h1>Stocks Watch</h1>
+        <button
+          style={{
+            color: "white",
+            padding: "10px",
+            backgroundColor: "brown",
+            marginLeft: "30px"
+          }}
+          onClick={promptUser}
+        >
+          Install
+        </button>
       </header>
       Stock name IVV
       <br></br>
