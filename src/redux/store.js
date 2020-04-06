@@ -10,9 +10,9 @@ const persistConfig = {
   storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-const sagaMiddleware = createSagaMiddleware();
-let store = createStore(persistedReducer, applyMiddleware(sagaMiddleware));
-let persistor = persistStore(store);
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+const sagaMiddleware = createSagaMiddleware()
+let store = createStore(persistedReducer, applyMiddleware(sagaMiddleware))
+let persistor = persistStore(store)
 
-export { store, persistor, sagaMiddleware };
+export { store, persistor, sagaMiddleware }

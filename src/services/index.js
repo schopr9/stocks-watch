@@ -1,21 +1,20 @@
-const API_ROOT = 'https://apidojo-yahoo-finance-v1.p.rapidapi.com/github.com/'
+const API_ROOT = 'https://finnhub.io/api/v1/'
 
 function callApi(endpoint, query) {
   const fullUrl =
     endpoint.indexOf(API_ROOT) === -1 ? API_ROOT + endpoint : endpoint
 
   const url = new URL(fullUrl),
-    params = { query, lang: 'en', location: 'US' }
+    params = {
+      query,
+      excahnge: 'US',
+      token: process.env.REACT_APP_FINNHUB_TOKEN,
+    }
   Object.keys(params).forEach((key) =>
     url.searchParams.append(key, params[key])
   )
 
-  return fetch(url, {
-    headers: {
-      'x-rapidapi-host': 'apidojo-yahoo-finance-v1.p.rapidapi.com',
-      'x-rapidapi-key': process.env.REACT_APP_YAHOO_FINANCE_KEY,
-    },
-  })
+  return fetch(url)
     .then((response) => response.json())
     .then(({ json, response }) => {
       if (!response.ok) {
@@ -31,5 +30,4 @@ function callApi(endpoint, query) {
 }
 
 // api services
-export const fetchSymbolAutocomplete = (query) =>
-  callApi(`market/auto-complete`, query)
+export const fetchSymbolAutocomplete = (query) => callApi('symbol', query)

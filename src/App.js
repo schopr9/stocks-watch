@@ -1,56 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import HomeIcon from "@material-ui/icons/Home";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
-import "./App.css";
-import { promptUser, deferredInstallPrompt } from "./install";
+import React, { useState, useEffect } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import HomeIcon from '@material-ui/icons/Home'
+import FavoriteIcon from '@material-ui/icons/Favorite'
+import ArrowDownward from '@material-ui/icons/ArrowDownward'
+import './App.css'
+import { promptUser, deferredInstallPrompt } from './install'
+import SearchSymbol from './components/SearchSymbol'
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: "#0e0e0e",
-    position: "fixed",
+    backgroundColor: '#0e0e0e',
+    position: 'fixed',
     zIndex: 2,
     left: 0,
     bottom: 0,
-    width: "100%",
-    color: "white"
+    width: '100%',
+    color: 'white',
   },
   button: {
-    color: "white"
-  }
-});
+    color: 'white',
+  },
+})
 
 function App() {
-  const [data, setData] = useState({});
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const totalGainOrLoss = 59 * data.c - (50 * 315 + 9 * 301);
+  const [data, setData] = useState({})
+  const classes = useStyles()
+  const [value, setValue] = React.useState(0)
+  const totalGainOrLoss = 59 * data.c - (50 * 315 + 9 * 301)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await fetch(
-          "https://finnhub.io/api/v1/quote?symbol=IVV&token=bpbgne7rh5r9k08n8teg"
-        ).then(response => response.json());
-        setData(result);
+          'https://finnhub.io/api/v1/quote?symbol=IVV&token=bpbgne7rh5r9k08n8teg'
+        ).then((response) => response.json())
+        setData(result)
       } catch (e) {
         setData({
           c: 301.25,
           o: 312.25,
           h: 289.36,
-          l: 125.23
-        });
+          l: 125.23,
+        })
       }
-    };
-    fetchData();
-  }, []);
+    }
+    fetchData()
+  }, [])
   return (
     <div className="App">
       <header>
         <h1>Stocks Watch</h1>
+        <SearchSymbol />
       </header>
       {value === 0 && (
         <div className="stock">
@@ -71,7 +73,7 @@ function App() {
           <br></br>
           Total Invested = {50 * 315 + 9 * 301}
           <br></br>
-          Total {totalGainOrLoss > 0 ? "gain" : "loss"} ={" "}
+          Total {totalGainOrLoss > 0 ? 'gain' : 'loss'} ={' '}
           {totalGainOrLoss.toFixed(2)}
           <br></br>
         </div>
@@ -79,7 +81,7 @@ function App() {
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          setValue(newValue)
         }}
         showLabels
         className={classes.root}
@@ -104,7 +106,7 @@ function App() {
         )}
       </BottomNavigation>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

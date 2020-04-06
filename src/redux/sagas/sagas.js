@@ -1,5 +1,5 @@
 /* eslint-disable no-constant-condition */
-import { take, put, call, fork, all } from 'redux-saga/effects'
+import { take, put, call, fork, all, select } from 'redux-saga/effects'
 import { fetchSymbolAutocomplete } from '../../services'
 import * as actions from '../actions'
 // import {} from '../reducers/selectors'
@@ -22,14 +22,12 @@ function* fetchEntity(entity, apiFn, id, url) {
 }
 
 // yeah! we can also bind Generators
-export const fetchUser = fetchEntity.bind(null, stock, fetchSymbolAutocomplete)
+export const fetchAutoComplete = fetchEntity.bind(null, stock, fetchSymbolAutocomplete)
 
 // load user unless it is cached
 function* searchSymbol(query, requiredFields) {
-  //   const user = yield select(getUser, login)
-  //   if (!user || requiredFields.some((key) => !user.hasOwnProperty(key))) {
-  //     yield call(fetchUser, login)
-  //   }
+  const stocks  = yield select()
+  const result = yield call(fetchAutoComplete, query)
 }
 
 /******************************************************************************/
@@ -46,9 +44,9 @@ function* watchNavigate() {
 // Fetches data for a User : user data + starred repos
 function* watchSearchSymbol() {
   while (true) {
-    const { login, requiredFields = [] } = yield take(actions.LOAD_STOCK_SEARCH)
+    const { query, requiredFields = [] } = yield take(actions.LOAD_STOCK_SEARCH)
 
-    //  yield fork(loadUser, login, requiredFields)
+    yield fork(searchSymbol, query)
     //  yield fork(loadStarred, login)
   }
 }

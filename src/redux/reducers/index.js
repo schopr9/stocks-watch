@@ -3,9 +3,12 @@ import merge from 'lodash/merge'
 import { combineReducers } from 'redux'
 
 // Updates an entity cache in response to any action with response.entities.
-function searchSymbol(state = { stocks: {} }, action) {
-  if (action.response && action.response.entities) {
-    return merge({}, state, action.response.entities)
+function searchSymbol(state = { stocks: [] }, action) {
+  const { type, response } = action
+  console.log(action)
+
+  if (type === ActionTypes.STOCK_SUCCESS) {
+    return merge({}, state, { stocks: response })
   }
 
   return state
@@ -23,7 +26,6 @@ function errorMessage(state = null, action) {
 
   return state
 }
-
 
 function router(state = { pathname: '/' }, action) {
   switch (action.type) {
