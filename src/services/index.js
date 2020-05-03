@@ -6,9 +6,9 @@ function callApi(endpoint, query) {
 
   const url = new URL(fullUrl),
     params = {
-      query,
-      excahnge: 'US',
+      exchange: 'US',
       token: process.env.REACT_APP_FINNHUB_TOKEN,
+      ...query,
     }
   Object.keys(params).forEach((key) =>
     url.searchParams.append(key, params[key])
@@ -16,12 +16,9 @@ function callApi(endpoint, query) {
 
   return fetch(url)
     .then((response) => response.json())
-    .then(({ json, response }) => {
-      if (!response.ok) {
-        return Promise.reject(json)
-      }
-
-      return json
+    .then((data) => {
+      console.log(data)
+      return data
     })
     .then(
       (response) => ({ response }),
@@ -30,4 +27,4 @@ function callApi(endpoint, query) {
 }
 
 // api services
-export const fetchSymbolAutocomplete = (query) => callApi('symbol', query)
+export const fetchSymbolAutocomplete = (query) => callApi('stock/symbol', query)

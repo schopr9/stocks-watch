@@ -9,21 +9,21 @@ function createRequestTypes(base) {
   }, {})
 }
 
-export const STOCK = createRequestTypes('STOCK')
+export const SYMBOLS = createRequestTypes('SYMBOLS')
 
 export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
 export const NAVIGATE = 'NAVIGATE'
-export const LOAD_STOCK_SEARCH = 'LOAD_STOCK_SEARCH'
+export const LOAD_SYMBOLS_SEARCH = 'LOAD_SYMBOLS_SEARCH'
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 
 function action(type, payload = {}) {
   return { type, ...payload }
 }
 
-export const stock = {
-  request: (query) => action(STOCK[REQUEST], { query }),
-  success: (query, response) => action(STOCK[SUCCESS], { query, response }),
-  failure: (query, error) => action(STOCK[FAILURE], { query, error }),
+export const symbols = {
+  request: (query) => action(SYMBOLS[REQUEST], { query }),
+  success: (query, response) => action(SYMBOLS[SUCCESS], { query, response }),
+  failure: (query, error) => action(SYMBOLS[FAILURE], { query, error }),
 }
 
 
@@ -31,5 +31,5 @@ export const updateRouterState = (state) =>
   action(UPDATE_ROUTER_STATE, { state })
 export const navigate = (pathname) => action(NAVIGATE, { pathname })
 export const loadSearch = (query, requiredFields = []) =>
-  action(LOAD_STOCK_SEARCH, { query, requiredFields })
+  action(LOAD_SYMBOLS_SEARCH, { query, requiredFields })
 export const resetErrorMessage = () => action(RESET_ERROR_MESSAGE)

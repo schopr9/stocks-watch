@@ -7,9 +7,10 @@ function searchSymbol(state = { stocks: [] }, action) {
   const { type, response } = action
   console.log(action)
 
-  if (type === ActionTypes.STOCK_SUCCESS) {
-    return merge({}, state, { stocks: response })
+  if (type === ActionTypes.SYMBOLS.SUCCESS) {
+    return merge({}, state, { symbols: response })
   }
+  console.log(state)
 
   return state
 }
