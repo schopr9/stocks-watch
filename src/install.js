@@ -1,4 +1,4 @@
-let deferredInstallPrompt = null;
+export let deferredInstallPrompt = null;
 
 export const saveBeforeInstallPromptEvent = evt => {
   deferredInstallPrompt = evt;
