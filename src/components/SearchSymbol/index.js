@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -41,11 +42,15 @@ const StyledAutocomplete = styled(TextField)`
   input {
     color: white;
   }
+  .MuiButtonBase-root {
+    color: white;
+  }
 `
 
-const SearchSymbol = ({ loadSearch, symbols }) => {
+const SearchSymbol = ({ loadSearch, symbols, history }) => {
   const classes = useStyles()
   const [value, setValue] = useState(null)
+  const [isSelected, setIsSelected] = useState(false)
   const [options, setOptions] = useState([])
   const handleChange = (e) => {
     const upperCaseSymbol = e.target.value.toUpperCase()
@@ -62,6 +67,10 @@ const SearchSymbol = ({ loadSearch, symbols }) => {
 
   useEffect(() => loadSearch(), [])
 
+  if (isSelected) {
+    return <Redirect to={`/symbol/${value}`} />
+  }
+
   return (
     <Autocomplete
       id="combo-box-demo"
@@ -74,7 +83,7 @@ const SearchSymbol = ({ loadSearch, symbols }) => {
             option.description.includes(state.inputValue.toUpperCase())
         )
       }
-      getOptionSelected={(value) => console.log('lovely', value)}
+      getOptionSelected={(value) => setIsSelected(true)}
       getOptionLabel={(option) => option.symbol}
       renderOption={(option) => `${option.symbol} - ${option.description}`}
       style={{ width: '90%', marginBottom: 12 }}

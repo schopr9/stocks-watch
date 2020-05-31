@@ -28,7 +28,6 @@ function App() {
   const [data, setData] = useState({})
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
-  const totalGainOrLoss = 59 * data.c - (50 * 315 + 9 * 301)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,17 +66,7 @@ function App() {
           Day lowest {data.l}
         </div>
       )}
-      {value === 1 && (
-        <div className="stock">
-          Stock name IVV
-          <br></br>
-          Total Invested = {50 * 315 + 9 * 301}
-          <br></br>
-          Total {totalGainOrLoss > 0 ? 'gain' : 'loss'} ={' '}
-          {totalGainOrLoss.toFixed(2)}
-          <br></br>
-        </div>
-      )}
+      {value === 1 && <div className="stock">Coming Soon</div>}
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
