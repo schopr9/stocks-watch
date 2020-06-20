@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor, sagaMiddleware } from './redux/store'
+import ReactPWAInstallProvider from 'react-pwa-install'
 import './index.css'
 import App from './App'
 import { saveBeforeInstallPromptEvent } from './install'
 import rootSaga from './redux/sagas/sagas'
 import * as serviceWorker from './serviceWorker'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import SymbolDetail from './components/SymbolDetail'
 
 sagaMiddleware.run(rootSaga)
 
@@ -16,11 +18,11 @@ const Routes = () => {
   return (
     <Router>
       <Switch>
-        <Route path={'/symbol/:symbol'}>
-          <div>coming soon</div>
-        </Route>
+        <Route path={'/symbol/:symbol'} component={SymbolDetail} />
         <Route path="/">
-          <App />
+          <ReactPWAInstallProvider enableLogging>
+            <App />
+          </ReactPWAInstallProvider>
         </Route>
       </Switch>
     </Router>

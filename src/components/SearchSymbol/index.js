@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -50,7 +49,6 @@ const StyledAutocomplete = styled(TextField)`
 const SearchSymbol = ({ loadSearch, symbols, history }) => {
   const classes = useStyles()
   const [value, setValue] = useState(null)
-  const [isSelected, setIsSelected] = useState(false)
   const [options, setOptions] = useState([])
   const handleChange = (e) => {
     const upperCaseSymbol = e.target.value.toUpperCase()
@@ -65,11 +63,12 @@ const SearchSymbol = ({ loadSearch, symbols, history }) => {
     setOptions(optionsAutoComplete.slice(0, 10))
   }
 
-  useEffect(() => loadSearch(), [])
-
-  if (isSelected) {
-    return <Redirect to={`/symbol/${value}`} />
-  }
+  useEffect(() => {
+    const loadData = () => {
+      loadSearch()
+    }
+    loadData()
+  }, [])
 
   return (
     <Autocomplete
@@ -83,7 +82,9 @@ const SearchSymbol = ({ loadSearch, symbols, history }) => {
             option.description.includes(state.inputValue.toUpperCase())
         )
       }
-      getOptionSelected={(value) => setIsSelected(true)}
+      getOptionSelected={(option, val) => {
+        history.push(`/symbol/${val.symbol}`)
+      }}
       getOptionLabel={(option) => option.symbol}
       renderOption={(option) => `${option.symbol} - ${option.description}`}
       style={{ width: '90%', marginBottom: 12 }}

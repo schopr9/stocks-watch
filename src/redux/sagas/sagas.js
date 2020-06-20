@@ -1,6 +1,6 @@
 /* eslint-disable no-constant-condition */
 import { take, put, call, fork, all, select } from 'redux-saga/effects'
-import { fetchSymbolAutocomplete } from '../../services'
+import { fetchSymbolAutocomplete, symbolDetail } from '../../services'
 import * as actions from '../actions'
 import { getAllStocks } from '../reducers/selectors'
 
@@ -16,7 +16,7 @@ const { symbols } = actions
 // url    : next page url. If not provided will use pass id to apiFn
 function* fetchEntity(entity, apiFn, id, url) {
   yield put(entity.request(id))
-  const { response, error } = yield call(apiFn, url || id)
+  const { response, error } = yield call(apiFn, id)
   if (response) yield put(entity.success(id, response))
   else yield put(entity.failure(id, error))
 }
@@ -24,16 +24,28 @@ function* fetchEntity(entity, apiFn, id, url) {
 // yeah! we can also bind Generators
 export const fetchAutoComplete = fetchEntity.bind(
   null,
-  symbols,
+  symbols(),
   fetchSymbolAutocomplete
 )
 
 // load user unless it is cached
 function* searchSymbol(query, requiredFields) {
   const stocks = yield select(getAllStocks)
-  if (!stocks) {
+  if (!!stocks && stocks.length === 0) {
     yield call(fetchAutoComplete, query)
   }
+}
+
+// yeah! we can also bind Generators
+export const fetchSymbolDetail = fetchEntity.bind(
+  null,
+  symbols(actions.GET_SYMBOl_DETAIL),
+  symbolDetail
+)
+
+// load user unless it is cached
+function* getSymbol(query) {
+  yield call(fetchSymbolDetail, query)
 }
 
 /******************************************************************************/
@@ -48,6 +60,11 @@ function* watchSearchSymbol() {
   }
 }
 
+function* watchGetSymbol() {
+  const { query } = yield take(actions.GET_SYMBOl_DETAIL.REQUEST)
+  yield fork(getSymbol, query)
+}
+
 export default function* root() {
-  yield all([fork(watchSearchSymbol)])
+  yield all([fork(watchSearchSymbol), fork(watchGetSymbol)])
 }
