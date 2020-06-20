@@ -41,9 +41,12 @@ const StyledAutocomplete = styled(TextField)`
   input {
     color: white;
   }
+  .MuiButtonBase-root {
+    color: white;
+  }
 `
 
-const SearchSymbol = ({ loadSearch, symbols }) => {
+const SearchSymbol = ({ loadSearch, symbols, history }) => {
   const classes = useStyles()
   const [value, setValue] = useState(null)
   const [options, setOptions] = useState([])
@@ -60,7 +63,12 @@ const SearchSymbol = ({ loadSearch, symbols }) => {
     setOptions(optionsAutoComplete.slice(0, 10))
   }
 
-  useEffect(() => loadSearch(), [])
+  useEffect(() => {
+    const loadData = () => {
+      loadSearch()
+    }
+    loadData()
+  }, [])
 
   return (
     <Autocomplete
@@ -74,7 +82,9 @@ const SearchSymbol = ({ loadSearch, symbols }) => {
             option.description.includes(state.inputValue.toUpperCase())
         )
       }
-      getOptionSelected={(value) => console.log('lovely', value)}
+      getOptionSelected={(option, val) => {
+        history.push(`/symbol/${val.symbol}`)
+      }}
       getOptionLabel={(option) => option.symbol}
       renderOption={(option) => `${option.symbol} - ${option.description}`}
       style={{ width: '90%', marginBottom: 12 }}

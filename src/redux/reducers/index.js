@@ -3,15 +3,24 @@ import merge from 'lodash/merge'
 import { combineReducers } from 'redux'
 
 // Updates an entity cache in response to any action with response.entities.
-function searchSymbol(state = { stocks: [] }, action) {
+function searchSymbol(state = { symbols: [] }, action) {
   const { type, response } = action
-  console.log(action)
 
   if (type === ActionTypes.SYMBOLS.SUCCESS) {
     return merge({}, state, { symbols: response })
   }
-  console.log(state)
 
+  return state
+}
+
+function saveSymbolDetail(state = { symbols: {} }, action) {
+  const { type, response, query } = action
+
+  if (type === ActionTypes.GET_SYMBOl_DETAIL.SUCCESS) {
+    return merge({}, state, {
+      symbols: { [query.symbol]: response, ...state.symbols },
+    })
+  }
   return state
 }
 
@@ -39,6 +48,7 @@ function router(state = { pathname: '/' }, action) {
 
 const rootReducer = combineReducers({
   searchSymbol,
+  saveSymbolDetail,
   errorMessage,
   router,
 })

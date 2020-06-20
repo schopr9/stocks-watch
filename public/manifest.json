@@ -1,8 +1,7 @@
 {
   "short_name": "Stocks watch",
   "name": "stocks watch",
-  "icons": [
-    {
+  "icons": [{
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
@@ -42,8 +41,8 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-],
-  "start_url": "https://stocksgain.netlify.com/",
+  ],
+  "start_url": "https://stocksgain.netlify.app/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

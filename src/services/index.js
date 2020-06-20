@@ -17,7 +17,6 @@ function callApi(endpoint, query) {
   return fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
       return data
     })
     .then(
@@ -28,3 +27,4 @@ function callApi(endpoint, query) {
 
 // api services
 export const fetchSymbolAutocomplete = (query) => callApi('stock/symbol', query)
+export const symbolDetail = (query) => callApi('quote', query)
