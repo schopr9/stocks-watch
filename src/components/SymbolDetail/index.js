@@ -56,6 +56,7 @@ function SymbolDetail({ getSymbolDetail, symbols, symbolDescriptions = [] }) {
   }, [symbol])
   const currentPrice =
     !!symbols && symbols[symbol] && symbols[symbol].c.toString()
+  const previousClosePrice = !!symbols && symbols[symbol] && symbols[symbol].pc
   const stockDescription = symbolDescriptions.filter(
     (data) => data.symbol === symbol
   ) || [{ description: '' }]
@@ -87,14 +88,14 @@ function SymbolDetail({ getSymbolDetail, symbols, symbolDescriptions = [] }) {
         </Toolbar>
       </AppBar>
       <div className={classes.description}>
-        {stockDescription[0].description}
+        {stockDescription[0] && stockDescription[0].description}
       </div>
       <div className={classes.div}>
         <div className={classes.dollar}>$</div>
         <FlipNumbers
           height={32}
           width={22}
-          color="red"
+          color={currentPrice > previousClosePrice ? 'green' : 'red'}
           play
           numberStyle
           numbers={currentPrice || '00.00'}

@@ -48,11 +48,9 @@ const StyledAutocomplete = styled(TextField)`
 
 const SearchSymbol = ({ loadSearch, symbols, history }) => {
   const classes = useStyles()
-  const [value, setValue] = useState(null)
   const [options, setOptions] = useState([])
   const handleChange = (e) => {
     const upperCaseSymbol = e.target.value.toUpperCase()
-    setValue(upperCaseSymbol)
     const optionsAutoComplete = _.filter(
       symbols,
       (data) =>
