@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor, sagaMiddleware } from './redux/store'
-import ReactPWAInstallProvider from 'react-pwa-install'
 import './index.css'
 import App from './App'
 import { saveBeforeInstallPromptEvent } from './install'
@@ -19,11 +18,7 @@ const Routes = () => {
     <Router>
       <Switch>
         <Route path={'/symbol/:symbol'} component={SymbolDetail} />
-        <Route path="/">
-          <ReactPWAInstallProvider enableLogging>
-            <App />
-          </ReactPWAInstallProvider>
-        </Route>
+        <Route path="/" component={App} />
       </Switch>
     </Router>
   )

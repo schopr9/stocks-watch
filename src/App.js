@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
-import { useReactPWAInstall } from 'react-pwa-install'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
+import ReactPWAInstallProvider from 'react-pwa-install'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import ArrowDownward from '@material-ui/icons/ArrowDownward'
 import './App.css'
-import { promptUser, deferredInstallPrompt } from './install'
+// import { promptUser, deferredInstallPrompt } from './install'
 import SearchSymbol from './components/SearchSymbol'
+import Install from './components/Install'
 
 const useStyles = makeStyles({
   root: {
@@ -28,26 +28,6 @@ const useStyles = makeStyles({
 function App({ history }) {
   const classes = useStyles()
   const [value, setValue] = React.useState(0)
-  const { pwaInstall, supported, isInstalled } = useReactPWAInstall()
-
-  const handleClick = () => {
-    pwaInstall({
-      title: 'Install Web App',
-      features: (
-        <ul>
-          <li>Cool feature 1</li>
-          <li>Cool feature 2</li>
-          <li>Even cooler feature</li>
-          <li>Works offline</li>
-        </ul>
-      ),
-      description: 'This is a very good app that does a lot of useful stuff. ',
-    })
-      .then(() =>
-        alert('App installed successfully or instructions for install shown')
-      )
-      .catch(() => alert('User opted out from installing'))
-  }
 
   return (
     <div className="App">
@@ -75,14 +55,9 @@ function App({ history }) {
           icon={<FavoriteIcon />}
           className={classes.button}
         />
-        {supported() && !isInstalled() && (
-          <BottomNavigationAction
-            label="Install"
-            icon={<ArrowDownward />}
-            className={classes.button}
-            onClick={handleClick}
-          />
-        )}
+        <ReactPWAInstallProvider enableLogging>
+          <Install />
+        </ReactPWAInstallProvider>
       </BottomNavigation>
     </div>
   )
