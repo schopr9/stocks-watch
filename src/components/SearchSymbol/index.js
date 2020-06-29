@@ -72,6 +72,9 @@ const SearchSymbol = ({ loadSearch, symbols, history }) => {
     <Autocomplete
       id="combo-box-demo"
       options={options}
+      onChange={(event, newValue) => {
+        history.push(`/symbol/${newValue.symbol}`)
+      }}
       filterOptions={(options, state) =>
         options.filter(
           (option) =>
@@ -80,9 +83,6 @@ const SearchSymbol = ({ loadSearch, symbols, history }) => {
             option.description.includes(state.inputValue.toUpperCase())
         )
       }
-      getOptionSelected={(option, val) => {
-        history.push(`/symbol/${val.symbol}`)
-      }}
       getOptionLabel={(option) => option.symbol}
       renderOption={(option) => `${option.symbol} - ${option.description}`}
       style={{ width: '90%', marginBottom: 12 }}

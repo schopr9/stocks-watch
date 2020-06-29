@@ -60,7 +60,7 @@ function SymbolDetail({ getSymbolDetail, symbols, symbolDescriptions = [] }) {
   const stockDescription = symbolDescriptions.filter(
     (data) => data.symbol === symbol
   ) || [{ description: '' }]
-  console.log(stockDescription.description)
+
   return (
     <div className="App">
       <AppBar position="static" className={classes.muiAppBar}>
