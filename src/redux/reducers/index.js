@@ -18,9 +18,23 @@ function saveSymbolDetail(state = { symbols: {} }, action) {
 
   if (type === ActionTypes.GET_SYMBOl_DETAIL.SUCCESS) {
     return merge({}, state, {
-      symbols: { [query.symbol]: response, ...state.symbols },
+      symbols: { ...state.symbols, [query.symbol]: response },
     })
   }
+  return state
+}
+
+function addToFavorite(state = { favorite: [] }, action) {
+  const { type, symbol } = action
+
+  const newFavorite = state.favorite.some((o) => o === symbol)
+    ? state.favorite.filter((o) => o !== symbol)
+    : [...state.favorite, symbol]
+
+  if (type === ActionTypes.ADD_TO_FAVORITE && symbol) {
+    return merge({}, { favorite: newFavorite })
+  }
+
   return state
 }
 
@@ -50,6 +64,7 @@ const rootReducer = combineReducers({
   searchSymbol,
   saveSymbolDetail,
   errorMessage,
+  addToFavorite,
   router,
 })
 
