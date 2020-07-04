@@ -16,6 +16,7 @@ export const NAVIGATE = 'NAVIGATE'
 export const LOAD_SYMBOLS_SEARCH = 'LOAD_SYMBOLS_SEARCH'
 export const GET_SYMBOl_DETAIL = createRequestTypes('GET_SYMBOl_DETAIL')
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
+export const ADD_TO_FAVORITE = 'ADD_TO_FAVORITE'
 
 function action(type, payload = {}) {
   return { type, ...payload }
@@ -34,4 +35,11 @@ export const loadSearch = (query, requiredFields = []) =>
   action(LOAD_SYMBOLS_SEARCH, { query, requiredFields })
 export const resetErrorMessage = () => action(RESET_ERROR_MESSAGE)
 export const getSymbolDetail = (query, requiredFields = []) =>
-  action(GET_SYMBOl_DETAIL.REQUEST, { query: { symbol: query }, requiredFields })
+  action(GET_SYMBOl_DETAIL.REQUEST, {
+    query: { symbol: query },
+    requiredFields,
+  })
+export const addToFavorite = (symbol) =>
+  action(ADD_TO_FAVORITE, {
+    symbol,
+  })

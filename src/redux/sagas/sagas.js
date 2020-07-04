@@ -42,10 +42,10 @@ export const fetchSymbolDetail = fetchEntity.bind(
 
 function* getSymbol(query) {
   let num = 0
-  while (num < 15) {
-    yield delay(1000)
+  while (num < 5) {
+    yield delay(2000)
     num++
-    yield call(fetchSymbolDetail, query)    
+    yield call(fetchSymbolDetail, query)
   }
 }
 

@@ -9,6 +9,7 @@ import './App.css'
 // import { promptUser, deferredInstallPrompt } from './install'
 import SearchSymbol from './components/SearchSymbol'
 import Install from './components/Install'
+import Favorites from './components/Favorites'
 
 const useStyles = makeStyles({
   root: {
@@ -19,6 +20,8 @@ const useStyles = makeStyles({
     bottom: 0,
     width: '100%',
     color: 'white',
+    padding: 10,
+    height: 60,
   },
   button: {
     color: 'white',
@@ -35,7 +38,7 @@ function App({ history }) {
         <h1>Stocks Watch</h1>
         <SearchSymbol history={history} />
       </header>
-      {value === 0 && <div>coming soon</div>}
+      {value === 0 && <Favorites />}
       {value === 1 && <div className="stock">Coming Soon</div>}
       <BottomNavigation
         value={value}
