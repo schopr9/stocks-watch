@@ -10,6 +10,7 @@ import './App.css'
 import SearchSymbol from './components/SearchSymbol'
 import Install from './components/Install'
 import Favorites from './components/Favorites'
+import { HistoryContext, HistoryProvider } from './context/historyContext'
 
 const useStyles = makeStyles({
   root: {
@@ -34,34 +35,36 @@ function App({ history }) {
 
   return (
     <div className="App">
-      <header>
-        <h1>Stocks Watch</h1>
-        <SearchSymbol history={history} />
-      </header>
-      {value === 0 && <Favorites />}
-      {value === 1 && <div className="stock">Coming Soon</div>}
-      <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue)
-        }}
-        showLabels
-        className={classes.root}
-      >
-        <BottomNavigationAction
-          label="Home"
-          icon={<HomeIcon />}
-          className={classes.button}
-        />
-        <BottomNavigationAction
-          label="Holdings"
-          icon={<FavoriteIcon />}
-          className={classes.button}
-        />
-        <ReactPWAInstallProvider enableLogging>
-          <Install />
-        </ReactPWAInstallProvider>
-      </BottomNavigation>
+      <HistoryProvider history={history}>
+        <header>
+          <h1>Stocks Watch</h1>
+          <SearchSymbol history={history} />
+        </header>
+        {value === 0 && <Favorites />}
+        {value === 1 && <div className="stock">Coming Soon</div>}
+        <BottomNavigation
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue)
+          }}
+          showLabels
+          className={classes.root}
+        >
+          <BottomNavigationAction
+            label="Home"
+            icon={<HomeIcon />}
+            className={classes.button}
+          />
+          <BottomNavigationAction
+            label="Holdings"
+            icon={<FavoriteIcon />}
+            className={classes.button}
+          />
+          <ReactPWAInstallProvider enableLogging>
+            <Install />
+          </ReactPWAInstallProvider>
+        </BottomNavigation>
+      </HistoryProvider>
     </div>
   )
 }

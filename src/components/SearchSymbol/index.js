@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
@@ -7,6 +7,7 @@ import { TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { loadSearch } from '../../redux/actions'
+import { HistoryContext } from '../../context/historyContext'
 
 const useStyles = makeStyles({
   option: {
@@ -46,9 +47,10 @@ const StyledAutocomplete = styled(TextField)`
   }
 `
 
-const SearchSymbol = ({ loadSearch, symbols, history }) => {
+const SearchSymbol = ({ loadSearch, symbols }) => {
   const classes = useStyles()
   const [options, setOptions] = useState([])
+  const { navigateTo } = useContext(HistoryContext)
   const handleChange = (e) => {
     const upperCaseSymbol = e.target.value.toUpperCase()
     const optionsAutoComplete = _.filter(
@@ -73,7 +75,7 @@ const SearchSymbol = ({ loadSearch, symbols, history }) => {
       id="combo-box-demo"
       options={options}
       onChange={(event, newValue) => {
-        history.push(`/symbol/${newValue.symbol}`)
+        navigateTo(`/symbol/${newValue.symbol}`)
       }}
       filterOptions={(options, state) =>
         options.filter(
