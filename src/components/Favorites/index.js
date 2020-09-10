@@ -1,10 +1,12 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import FlipNumbers from 'react-flip-numbers'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { startCase } from 'lodash'
+import { HistoryContext } from '../../context/historyContext'
+import { getSymbolDetail } from '../../redux/actions'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,12 +27,16 @@ const useStyles = makeStyles((theme) => ({
 
 const FavoriteCard = ({ favSymbol, stockDescription, symbolDetail }) => {
   const classes = useStyles()
+  const { navigateTo } = useContext(HistoryContext)
   const pertcentageValue =
     symbolDetail &&
     (((symbolDetail.c - symbolDetail.pc) / symbolDetail.pc) * 100).toFixed(1)
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onClick={() => navigateTo(`/symbol/${favSymbol}`)}
+    >
       <Paper elevation={3} color="black">
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', padding: '3%' }}>{favSymbol}</div>
@@ -77,7 +83,21 @@ const FavoriteCard = ({ favSymbol, stockDescription, symbolDetail }) => {
   )
 }
 
-function Favorites({ favorites, symbolDescriptions, symbolDetails }) {
+function Favorites({
+  favorites,
+  symbolDescriptions,
+  symbolDetails,
+  getSymbolDetail,
+}) {
+  useEffect(() => {
+    const loadData = () => {
+      favorites.forEach((favSymbol) => {
+        return getSymbolDetail(favSymbol)
+      })
+    }
+    loadData()
+  }, [favorites])
+
   return (
     <Fragment>
       {favorites.map((favSymbol) => {
@@ -102,6 +122,7 @@ function Favorites({ favorites, symbolDescriptions, symbolDetails }) {
 Favorites.propTypes = {
   getFavorites: PropTypes.func,
   addToFavorite: PropTypes.func,
+  getSymbolDetail: PropTypes.func,
 }
 
 function mapStateToProps(state) {
@@ -112,4 +133,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(Favorites)
+export default connect(mapStateToProps, { getSymbolDetail })(Favorites)
