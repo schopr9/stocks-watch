@@ -1,6 +1,10 @@
 /* eslint-disable no-constant-condition */
 import { take, put, call, fork, all, select, delay } from 'redux-saga/effects'
-import { fetchSymbolAutocomplete, symbolDetail } from '../../services'
+import {
+  fetchSymbolAutocomplete,
+  symbolDetail,
+  basicFinancials,
+} from '../../services'
 import * as actions from '../actions'
 import { getAllStocks } from '../reducers/selectors'
 
@@ -40,8 +44,15 @@ export const fetchSymbolDetail = fetchEntity.bind(
   symbolDetail
 )
 
+export const fetchBasicDetails = fetchEntity.bind(
+  null,
+  symbols(actions.GET_BASIC_DETAIL),
+  basicFinancials
+)
+
 function* getSymbol(query) {
   let num = 0
+  yield call(fetchBasicDetails, query)
   while (num < 5) {
     yield delay(2000)
     num++
