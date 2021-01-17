@@ -16,9 +16,15 @@ function searchSymbol(state = { symbols: [] }, action) {
 function saveSymbolDetail(state = { symbols: {} }, action) {
   const { type, response, query } = action
 
-  if (type === ActionTypes.GET_SYMBOl_DETAIL.SUCCESS) {
+  if (
+    type === ActionTypes.GET_SYMBOl_DETAIL.SUCCESS ||
+    type === ActionTypes.GET_BASIC_DETAIL.SUCCESS
+  ) {
     return merge({}, state, {
-      symbols: { ...state.symbols, [query.symbol]: response },
+      symbols: {
+        ...state.symbols,
+        [query.symbol]: { ...state.symbols[query.symbol], ...response },
+      },
     })
   }
   return state

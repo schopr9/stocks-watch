@@ -15,6 +15,7 @@ export const UPDATE_ROUTER_STATE = 'UPDATE_ROUTER_STATE'
 export const NAVIGATE = 'NAVIGATE'
 export const LOAD_SYMBOLS_SEARCH = 'LOAD_SYMBOLS_SEARCH'
 export const GET_SYMBOl_DETAIL = createRequestTypes('GET_SYMBOl_DETAIL')
+export const GET_BASIC_DETAIL = createRequestTypes('GET_BASIC_DETAIL')
 export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE'
 export const ADD_TO_FAVORITE = 'ADD_TO_FAVORITE'
 
