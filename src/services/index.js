@@ -6,7 +6,6 @@ function callApi(endpoint, query) {
 
   const url = new URL(fullUrl),
     params = {
-      exchange: 'US',
       token: process.env.REACT_APP_FINNHUB_TOKEN,
       ...query,
     }
@@ -26,5 +25,8 @@ function callApi(endpoint, query) {
 }
 
 // api services
-export const fetchSymbolAutocomplete = (query) => callApi('stock/symbol', query)
+export const fetchSymbolAutocomplete = (query) =>
+  callApi('stock/symbol', { exchange: 'US', ...query })
 export const symbolDetail = (query) => callApi('quote', query)
+export const basicFinancials = (query) =>
+  callApi('stock/metric', { metric: 'all', ...query })

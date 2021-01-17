@@ -12,6 +12,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack'
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder'
 import Favorite from '@material-ui/icons/Favorite'
 import { getSymbolDetail, addToFavorite } from '../../redux/actions'
+import BasicFinancialDetails from '../BasicFinancialDetails'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -117,6 +118,7 @@ function SymbolDetail({
           numbers={(currentPrice && currentPrice.toString()) || '00.00'}
         />
       </div>
+      <BasicFinancialDetails basicFinancials={symbolDetail?.metric} />
     </div>
   )
 }
