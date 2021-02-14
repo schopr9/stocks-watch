@@ -35,10 +35,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10%',
     color: 'red',
   },
-  divGreen: {
+  divWhite: {
     display: 'flex',
     marginLeft: '10%',
-    color: 'green',
+    color: 'white',
   },
   dollar: {
     fontSize: 'x-large',
@@ -73,6 +73,7 @@ function SymbolDetail({
   const stockDescription = symbolDescriptions.filter(
     (data) => data.symbol === symbol
   ) || [{ description: '' }]
+  let formattedPrice = currentPrice?.toFixed(2)
 
   return (
     <div className="App">
@@ -103,19 +104,15 @@ function SymbolDetail({
       <div className={classes.description}>
         {stockDescription[0] && stockDescription[0].description}
       </div>
-      <div
-        className={
-          currentPrice > previousClosePrice ? classes.divGreen : classes.divRed
-        }
-      >
+      <div className={classes.divWhite}>
         <div className={classes.dollar}>$</div>
         <FlipNumbers
           height={32}
           width={22}
-          color={currentPrice > previousClosePrice ? 'green' : 'red'}
+          color={'white'}
           play
           numberStyle
-          numbers={(currentPrice && currentPrice.toString()) || '00.00'}
+          numbers={(currentPrice && formattedPrice) || '00.00'}
         />
       </div>
       <BasicFinancialDetails basicFinancials={symbolDetail?.metric} />

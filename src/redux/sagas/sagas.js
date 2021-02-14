@@ -33,8 +33,11 @@ export const fetchAutoComplete = fetchEntity.bind(
 
 function* searchSymbol(query, requiredFields) {
   const stocks = yield select(getAllStocks)
+  console.log({ stocks })
   if (!!stocks && stocks.length === 0) {
     yield call(fetchAutoComplete, query)
+    yield put(actions.addToFavorite('AAPL'))
+    yield put(actions.addToFavorite('TSLA'))
   }
 }
 
@@ -51,13 +54,8 @@ export const fetchBasicDetails = fetchEntity.bind(
 )
 
 function* getSymbol(query) {
-  let num = 0
+  yield call(fetchSymbolDetail, query)
   yield call(fetchBasicDetails, query)
-  while (num < 5) {
-    yield delay(2000)
-    num++
-    yield call(fetchSymbolDetail, query)
-  }
 }
 
 /******************************************************************************/
